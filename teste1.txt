@@ -1,6 +1,0 @@
-# Os arquivos de entrada suportam comentários, basta a linha começar por '#'
-# FORMATO:
-# ESTADO_ATUAL LER_VAL NOVO_ESTADO ESCREVER_VAL DIRECAO
-A B C _ _
-B C D _ _
-C D E _ _
