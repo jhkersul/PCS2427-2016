@@ -8,12 +8,14 @@ class FiniteAutomata
   # entry_file - Arquivo com os dados de entrada do automato
   # automata - Automato em si, trata-se de um hash
   # current - Possui alguns dados sobre o estado atual do automato, também é um hash
-  attr_accessor :track, :automata_file, :entry_file, :automata, :current
+  attr_accessor :track, :automata_file, :entry_file, :automata, :current, :name, :num_iters
 
-  def initialize(track, automata_file, entry_file)
+  def initialize(track, automata_file, entry_file, name=nil)
     @track = track
     @automata_file = automata_file
     @entry_file = entry_file
+    @name = name
+
     @automata = {
         :initial => nil,
         :transitions => [],
@@ -26,15 +28,14 @@ class FiniteAutomata
       :left => [],
       :right => []
     }
-  end
 
-  def run
     construct_automata
     puts @automata.to_s
 
-    construct_entry
-    puts @current.to_s
-
+    unless entry_file.nil?
+      construct_entry
+      puts @current.to_s
+    end
   end
 
   def construct_automata
@@ -87,10 +88,82 @@ class FiniteAutomata
       symbols = line.split(" ")
 
       symbols.each do |symbol|
-        @current[:left].push(symbol)
+        @current[:right].push(symbol)
       end
 
     end
+  end
+
+  def run(i = 0, submachines = nil)
+    # Setando configuração inicial
+    if @current[:current_state].nil?
+      @current[:current_state] = @automata[:initial]
+    end
+    if @name.nil?
+      @current[:head] = @current[:left].shift
+    end
+
+    legal = true
+
+    while @current[:head] != '#' && legal
+      i += 1
+      @num_iters = i
+      legal = false
+
+      @automata[:transitions].each do |transition|
+        if transition[:current] == @current[:current_state] && transition[:entry] == @current[:head]
+          @current[:current_state] = transition[:next]
+          legal = true
+
+          @current[:left].push(@current[:head])
+          @current[:head] = @current[:right].shift
+        end
+      end
+
+      if !legal & !submachines.nil?
+        @automata[:transitions].each do |transition|
+
+          if transition[:current] == @current[:current_state]
+
+            if submachines.include? transition[:entry]
+              return {
+                  :from => @name,
+                  :to => transition[:entry],
+                  :state => transition[:next]
+              }
+            end
+
+          end
+
+        end
+      end
+
+    end
+
+    if !legal
+      if @automata[:terminals].include? @current[:current_state] && !@name.nil?
+        puts "A MÁQUINA #{@name} TERMINOU EM UM ESTADO DE ACEITAÇÃO: #{@current[:current_state]}"
+        result = true
+      else
+        puts "ENTRADA INVÁLIDA. FIM DA SIMULAÇÃO."
+        result = false
+      end
+    else
+      if @automata[:terminals].include? @current[:current_state]
+        puts "TERMINOU EM UM ESTADO DE ACEITAÇÃO: #{@current[:current_state]}"
+        result = true
+      else
+        puts "TERMINOU EM ESTADO NÃO TERMINAL. NÃO ACEITO"
+        result = false
+      end
+    end
+
+    if @name.nil?
+      # Se chegamos ao final, podemos imprimir a lista de eventos
+    end
+
+    # Retorna o resultado
+    result
   end
 
   def print

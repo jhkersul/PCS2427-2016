@@ -30,7 +30,7 @@ class Simulator
       when 'mt'
         turing_machine = TuringMachine.new(@track, @automata_file, @entry_file)
         turing_machine.run
-      when 'mp'
+      when 'ap'
         stack_automata = StackAutomata.new(@track, @automata_file, @entry_file)
         stack_automata.run
       else

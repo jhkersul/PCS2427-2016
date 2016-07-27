@@ -1,7 +1,12 @@
 require '../src/simulator'
 
+=begin
+Classe Main
+Responsável por controlar o inicio da execução do programa
+=end
 class Main
 
+  #
   def run
     # Setando a codificação padrão do Ruby
     Encoding.default_internal = Encoding::UTF_8

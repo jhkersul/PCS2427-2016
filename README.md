@@ -40,7 +40,7 @@
 * Inicio do processamento
 * Movimento do cabeçote para a direita
 * Leitura de símbolo do alfabeto
-* LEitura de uma marca de final da cadeira de entrada
+* Leitura de uma marca de final da cadeia de entrada
 * Atingir um estado final
 
 ### Configuração de um Autômato Finito
