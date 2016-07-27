@@ -57,7 +57,7 @@ class Main
     # Pegando arquivo que contém as entradas do automato
     print 'Digite o nome do arquivo que possui as entradas para o automato: '
     #file_name = './test/' + gets.chomp + '.txt'
-    file_name = "./test/eaf11.txt"
+    file_name = "./test/eaf12.txt"
 
     # Se o arquivo existir, começamos a construir o automato
     if File.exist? file_name

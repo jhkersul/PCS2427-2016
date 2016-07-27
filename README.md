@@ -148,14 +148,3 @@
     * Verificar o conteúdo da fita, e aplicar a convenção adotada para avaliar se cadeia foi aceita ou não
 * Tentativa de recuar à esquerda do início da fita
     * Bloqueio da máquina de Turing por movimento proibido
-    
-## Estrutura do Arquivo de Testes
-
-### Linhas
-
-ESTADO_ATUAL LER_VAL NOVO_ESTADO ESCREVER_VAL DIRECAO
-
-* DIRECAO -> Aceito 'L' ou 'R'
-    * Quando for um Autômato Finito, a direção não é necessária, então substitui-se por '_'
-* ESCREVER_VAL -> Valor a ser escrito
-    * Não aplicado em autômato finito (substituir por '_')

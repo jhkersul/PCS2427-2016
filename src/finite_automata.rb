@@ -1,3 +1,4 @@
+require 'byebug'
 
 class FiniteAutomata
 
@@ -9,6 +10,13 @@ class FiniteAutomata
   # automata - Automato em si, trata-se de um hash
   # current - Possui alguns dados sobre o estado atual do automato, também é um hash
   attr_accessor :track, :automata_file, :entry_file, :automata, :current, :name, :num_iters
+
+  EVENT_INITIAL = "PARTIDA INICIAL"
+  EVENT_SYMBOL_READ = "LENDO SÍMBOLO"
+  EVENT_HEAD_RIGHT = "CABEÇOTE PARA DIREITA"
+  EVENT_FINAL_STATE = "ATINGIU ESTADO TERMINAL"
+  EVENT_ERROR = "ERRO"
+  EVENT_END_SIMULATION = "FIM DA SIMULAÇÃO"
 
   def initialize(track, automata_file, entry_file, name=nil)
     @track = track
@@ -66,9 +74,9 @@ class FiniteAutomata
           transition[:next] = symbols[2].delete('*')
           if !@automata[:terminals].include?(transition[:next])
             @automata[:terminals].push(transition[:next])
-          else
-            transition[:next] = symbols[2]
           end
+        else
+          transition[:next] = symbols[2]
         end
 
         @automata[:transitions].push(transition)
@@ -100,23 +108,31 @@ class FiniteAutomata
       @current[:current_state] = @automata[:initial]
     end
     if @name.nil?
-      @current[:head] = @current[:left].shift
+      @current[:head] = @current[:right].shift
     end
 
     legal = true
+
+
 
     while @current[:head] != '#' && legal
       i += 1
       @num_iters = i
       legal = false
 
+      puts @current
+
       @automata[:transitions].each do |transition|
+
         if transition[:current] == @current[:current_state] && transition[:entry] == @current[:head]
+
           @current[:current_state] = transition[:next]
           legal = true
 
           @current[:left].push(@current[:head])
           @current[:head] = @current[:right].shift
+
+          break
         end
       end
 
@@ -166,7 +182,7 @@ class FiniteAutomata
     result
   end
 
-  def print
+  def print(event)
 
   end
 
