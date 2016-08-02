@@ -182,7 +182,16 @@ class FiniteAutomata
     result
   end
 
-  def print(event)
+  def print(instant)
+
+    puts ""
+    puts "Maquina: #{@name}" if @name.nil?
+    puts "Instante: #{instant}"
+    puts "Estado Corrente: #{@current[:current_state])}"
+    puts "Cabecote: #{@current[:head]}"
+    puts "Cadeia a esquerda: #{@current[:left].to_s}"
+    puts "Cadeia a direita: #{@current[:right].to_s}"
+
 
   end
 

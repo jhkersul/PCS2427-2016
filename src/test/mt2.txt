@@ -1,0 +1,4 @@
+q0
+q0 b q0 l
+q0 # q0 l
+q0 a h #
